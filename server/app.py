@@ -3,9 +3,10 @@ import uuid
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from markupsafe import Markup
-# from service.baidu_migration_scale import BaiduMigrationScale
-# from jinja2 import Markup
-# from jinja2.utils import markupsafe
+from baidu_migration_scales_route import register_routes
+from bei_shang_guang_shen_baidu_route import register_routes2
+from national_baidu_migration import register_routes3
+
 
 from pyecharts import options as opts
 from pyecharts.charts import Bar
@@ -50,6 +51,9 @@ def remove_book(book_id):
             return True
     return False
 
+register_routes(app)
+register_routes2(app)
+register_routes3(app)
 
 # sanity check route
 @app.route('/ping', methods=['GET'])
@@ -93,13 +97,7 @@ def single_book(book_id):
     return jsonify(response_object)
 
 
-@app.route('/baidu/baidu_migration_scale', methods=['GET'])
-def all_baidu_migration_scales():
-    response_object = {'status': 'success'}
-    # baiduMigrationScale = BaiduMigrationScale(db_file="../db/migration_scale_index.db")
-    # result_dict = baiduMigrationScale.listAllBaiduMigrationScales(baiduMigrationScale.connection)
-    # response_object['data'] = result_dict
-    return jsonify(response_object)
+
 
 def bar_base() -> Bar:
     c = (
@@ -118,4 +116,5 @@ def bar_view():
 
 
 if __name__ == '__main__':
+    # app.run(debug=True)
     app.run()
