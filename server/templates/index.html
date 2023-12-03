@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>迁徙图表</title>
+    <!-- 引入 Pyecharts 所需的 JavaScript 文件 -->
+    {{ echarts_js_dependence }}
+</head>
+<body>
+    <div id="chart" style="width: 100%;height:800px;">
+        {{ chart_html | safe }}
+    </div>
+</body>
+</html>
