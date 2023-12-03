@@ -5,7 +5,7 @@ from flask_cors import CORS
 from markupsafe import Markup
 from baidu_migration_scales_route import register_routes
 from bei_shang_guang_shen_baidu_route import register_routes2
-from national_baidu_migration import register_routes3
+from national_baidu_migration_after import register_routes_national_baidu
 
 
 from pyecharts import options as opts
@@ -53,7 +53,7 @@ def remove_book(book_id):
 
 register_routes(app)
 register_routes2(app)
-register_routes3(app)
+register_routes_national_baidu(app)
 
 # sanity check route
 @app.route('/ping', methods=['GET'])
