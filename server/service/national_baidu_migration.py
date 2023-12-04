@@ -8,15 +8,15 @@ class NationalBaiduMigration(DbImpl):
     def __init__(self, db_file):
         super().__init__(db_file)
 
-    def list_national_baidu_migration(self, conn):
+    def list_national_baidu_migration(self):
         result_dict = {}  # 使用字典替代列表
-        with conn:
+        with self.create_connection():
             sql = '''
             SELECT city_name, province_name, value, date, type_name, area
             FROM national_baidu_migration_scale
             WHERE date IN ('20230927', '20230928', '20230929', '20230930', '20231001', '20231002', '20231003', '20231004', '20231005', '20231006', '20231007', '20231008')
             '''
-            cur = conn.cursor()
+            cur = self.conn.cursor()
             cur.execute(sql)
             result_set = cur.fetchall()
             for result in result_set:

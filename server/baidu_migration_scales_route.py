@@ -40,6 +40,6 @@ def register_routes(app):
     @app.route('/baidu/baidu_migration_scale', methods=['GET'])
     def all_baidu_migration_scales():
         baiduMigrationScale = BaiduMigrationScale(db_file="./db/migration_scale_index.db")
-        result_dict = baiduMigrationScale.listAllBaiduMigrationScales(baiduMigrationScale.connection)
+        result_dict = baiduMigrationScale.listAllBaiduMigrationScales()
         c = line_base(result_dict['month_day'],result_dict['2021'],result_dict['2022'],result_dict['2023'])
         return Markup(c.render_embed())

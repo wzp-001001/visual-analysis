@@ -7,9 +7,9 @@ class BaiduMigrationScale(DbImpl):
         super().__init__(db_file)
 
     # List all info.
-    def listAllBaiduMigrationScales(self, conn):
+    def listAllBaiduMigrationScales(self):
         result_dict = {}
-        with conn:
+        with self.create_connection():
             sql = '''
                     SELECT * FROM baidu_migration_scale_index
                     where date between 20230901 and 20231015
@@ -17,7 +17,7 @@ class BaiduMigrationScale(DbImpl):
                     or date between 20210901 and 20211015
                     order by date
                   '''
-            cur = conn.cursor()
+            cur = self.conn.cursor()
             cur.execute(sql)
             result_set = cur.fetchall()
             month_day = []

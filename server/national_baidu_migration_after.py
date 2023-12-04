@@ -80,8 +80,8 @@ def register_routes_national_baidu(app):
                      20231007, 20231008]
 
         # 创建 NationalBaiduMigration 实例
-        migration_instance = NationalBaiduMigration(db_file="server/db/migration_scale_index.db")
-        result_dict = migration_instance.list_national_baidu_migration(conn=migration_instance.connection)
+        migration_instance = NationalBaiduMigration(db_file="./db/migration_scale_index.db")
+        result_dict = migration_instance.list_national_baidu_migration()
 
         # 将结果字典转换为 DataFrame
         df1 = migration_instance.to_dataframe(result_dict)

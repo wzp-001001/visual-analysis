@@ -1,24 +1,21 @@
 import sqlite3
 from sqlite3 import Error
-
+from contextlib import contextmanager
 
 class DbImpl:
-    connection = None
+    conn = None
 
     def __init__(self, db_file):
-        self.connection = self.create_connection(db_file)
+        self.db_file = db_file
 
-    def create_connection(self,db_file):
+
+    @contextmanager
+    def create_connection(self):
         """ create a database connection to the SQLite database
             specified by db_file
         :param db_file: database file
         :return: Connection object or None
         """
-        conn = None
-        try:
-            if not conn:
-                conn = sqlite3.connect(db_file)
-            return conn
-        except Error as e:
-            print(e)
-        return conn
+        self.conn = sqlite3.connect(self.db_file)
+        yield self.conn
+        self.conn.close()
