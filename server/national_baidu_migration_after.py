@@ -140,7 +140,7 @@ def register_routes_national_baidu(app):
         return chart_html
 
 
-    @app.route('/skr')
+    @app.route('/national_baidu_migration')
     def get_data_htmls():
         chart_html = get_datas_html()
         return render_template('index.html', chart_html=chart_html)
