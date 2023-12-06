@@ -33,7 +33,7 @@
           </li>
           <li class="layui-nav-item">
           </li>
-          <li class="layui-nav-item"><a href="line_chart.html">黄金周迁徙</a></li>
+          <li class="layui-nav-item"><a href="golden_week.html">黄金周迁徙</a></li>
           <li class="layui-nav-item"><a href="immigration.html">黄金周热门迁入地</a></li>
           <li class="layui-nav-item"><a href="emigration.html">黄金周热门迁出地</a></li>
           <li class="layui-nav-item"><a href="big_city.html">北上广深迁入迁出</a></li>
@@ -46,7 +46,24 @@
 <script src="{{ url_for('static', filename='layui.js') }}"></script>
 
 
+    <div id="line-chart" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
 
+    <!-- JavaScript代码 -->
+    <script>
+        // 使用ajax请求后端数据
+        $.ajax({
+            url: '/baidu/baidu_migration_scale', // 后端路由地址
+            type: 'GET',
+            dataType: 'html',
+            success: function(data) {
+                // 将后端返回的图表HTML代码插入到图表容器中
+                $("#line-chart").html(data);
+            },
+            error: function() {
+                alert('请求失败');
+            }
+        });
+    </script>
 
 
 </body>
