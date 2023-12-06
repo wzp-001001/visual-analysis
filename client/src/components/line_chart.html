@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>黄金周迁徙</title>
+  <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+  <link rel="stylesheet" href="/layui.css">
+  <script src="https://cdn.staticfile.org/echarts/5.1.2/echarts.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+  <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+  <style>
+    .city {
+        margin-left: 210px;
+        margin-top: 10px;
+        width: 200px;
+        display: inline-block;
+    }
+    .city-select{
+        height: 50px;
+        width: auto;
+        margin-left: 300px;
+    }
+  </style>
+
+
+</head>
+<body>
+
+
+    <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="test" style="height:1000px;" style="display: inline-block;">
+        <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+          <li class="layui-nav-item layui-nav-itemed">
+          </li>
+          <li class="layui-nav-item">
+          </li>
+          <li class="layui-nav-item"><a href="">黄金周迁徙</a></li>
+          <li class="layui-nav-item"><a href="">黄金周热门迁入地</a></li>
+          <li class="layui-nav-item"><a href="">黄金周热门迁出地</a></li>
+          <li class="layui-nav-item"><a href="">北上广深迁入迁出</a></li>
+    </ul>
+    <form class="layui-form city-select" action="">
+        <div class="layui-form-item" style="display: inline-block;margin-top: 20px;">
+            <label class="layui-form-label">请选择城市</label>
+            <div class="layui-input-block">
+              <select name="city" lay-verify="required">
+                <option value=""></option>
+                <option value="0">北京</option>
+                <option value="1">上海</option>
+                <option value="2">广州</option>
+                <option value="3">深圳</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;">
+            <div class="layui-input-block">
+              <input type="radio" name="city" value="immigration" title="迁入目的地" checked>
+              <input type="radio" name="city" value="emigration" title="迁出目的地">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;">
+            <div class="layui-input-block">
+              <button class="layui-btn" lay-submit lay-filter="formSet">确定</button>
+            </div>
+        </div>
+    </form>
+    <div id="Line" style="width:1000px; height:600px;"></div>
+    <script>
+        //表单提交
+        layui.use('form', function(){
+          var form = layui.form;
+
+          //监听提交
+          form.on('submit(formSet)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+          });
+        });
+        </script>
+
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script src="/layui.js"></script>
+
+
+<script>
+  const interface="http://127.0.0.1:5001/baidu/baidu_migration_scale"
+    (
+      function () {
+          var result_json = '{{ result_json|tojson }}';
+          // var result = JSON.parse(result_json);
+          var chart = echarts.init(document.getElementById('Line'), 'gray', {renderer: 'canvas'});
+          $.ajax({
+              type: "GET",
+              url: "http://127.0.0.1:5001/baidu/baidu_migration_scale",
+              dataType: 'json',
+              data: {result: result_json},
+              success: function (result) {
+                  chart.setOption(result);
+              }
+          });
+      }
+  )
+</script>
+
+
+
+</body>
+</html>
