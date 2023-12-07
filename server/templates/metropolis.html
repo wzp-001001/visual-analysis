@@ -75,9 +75,10 @@
               <button class="layui-btn" lay-submit lay-filter="formSet">确定</button>
             </div>
         </div>
+        <div id="chart-container"></div>
     </form>
 
-    <div id="chart-container"></div>
+
 
     <script src="{{ url_for('static', filename='layui.js') }}"></script>
     <script>
@@ -106,10 +107,11 @@
                 contentType: "application/json",
                 success: function(response) {
                     // 处理后端返回的响应数据
-                    console.log(response);
+                    // console.log(response);
 
                     // 将图表 HTML 插入到页面中的 #chart-container
                     $("#chart-container").html(response);
+                    // $("#chart-container").html("<p>456</p>");
                 },
                 error: function(xhr, status, error) {
                     // 处理请求错误
