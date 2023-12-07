@@ -47,9 +47,13 @@ def bar_view():
 def home():
     return render_template('golden_week.html')
 
-@app.route('/big_city')
-def big_city():
-    return render_template('big_city.html')
+@app.route('/golden_week')
+def golden_week():
+    return render_template('golden_week.html')
+
+@app.route('/metropolis')
+def metropolis():
+    return render_template('metropolis.html')
 
 @app.route('/emigration')
 def emigration():
