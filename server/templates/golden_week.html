@@ -3,23 +3,16 @@
 <head>
   <meta charset="utf-8">
   <title>黄金周迁徙</title>
-  <!-- 请勿在项目正式环境中引用该 layui.css href="layui.css"地址 -->
   <link rel="stylesheet"  href="{{ url_for('static', filename='layui.css') }}">
   <script src="https://cdn.staticfile.org/echarts/5.1.2/echarts.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
   <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
   <style>
-    .city {
-        margin-left: 210px;
-        margin-top: 10px;
-        width: 200px;
-        display: inline-block;
-    }
-    .city-select{
-        height: 50px;
-        width: auto;
-        margin-left: 300px;
-    }
+      .chart-container{
+          width: 1000px;
+          height: 500px;
+          margin-top: 100px;
+      }
   </style>
 
 
@@ -33,20 +26,16 @@
           </li>
           <li class="layui-nav-item">
           </li>
-          <li class="layui-nav-item"><a href="golden_week.html">黄金周迁徙</a></li>
-          <li class="layui-nav-item"><a href="immigration.html">黄金周热门迁入地</a></li>
-          <li class="layui-nav-item"><a href="emigration.html">黄金周热门迁出地</a></li>
-          <li class="layui-nav-item"><a href="big_city.html">北上广深迁入迁出</a></li>
+          <li class="layui-nav-item"><a href="golden_week">黄金周迁徙</a></li>
+          <li class="layui-nav-item"><a href="immigration">黄金周热门迁入地</a></li>
+          <li class="layui-nav-item"><a href="emigration">黄金周热门迁出地</a></li>
+          <li class="layui-nav-item"><a href="metropolis">北上广深迁入迁出</a></li>
     </ul>
-    <div id="line-chart" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
-     <div id="heat-map" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
+    <div id="line-chart" class="chart-container" style="margin-left: 500px"></div>
+    <div id="heat-map" class="chart-container" style="margin-left: 500px;></div>
 
-
-<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
 <script src="{{ url_for('static', filename='layui.js') }}"></script>
 
-
-    <div id="line-chart" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
 
     <!-- JavaScript代码 -->
     <script>
@@ -65,7 +54,6 @@
             }
         });
     </script>
-
 
 </body>
 </html>
