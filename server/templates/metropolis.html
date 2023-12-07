@@ -8,7 +8,6 @@
   <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
   <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
   <style>
-
     .city {
         margin-left: 210px;
         margin-top: 10px;
@@ -21,12 +20,8 @@
         margin-left: 300px;
     }
   </style>
-
-
 </head>
 <body>
-
-
     <ul class="layui-nav layui-nav-tree layui-nav-side" lay-filter="test" style="height:1000px;" style="display: inline-block;">
         <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
           <li class="layui-nav-item layui-nav-itemed">
@@ -42,21 +37,38 @@
         <div class="layui-form-item" style="display: inline-block;margin-top: 20px;">
             <label class="layui-form-label">请选择城市</label>
             <div class="layui-input-block">
-              <select name="city" lay-verify="required">
+              <select name="cities" lay-verify="required">
                 <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广州">广州</option>
+                <option value="深圳">深圳</option>
+              </select>
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: inline-block;margin-top: 20px;">
+            <label class="layui-form-label">请选择日期</label>
+            <div class="layui-input-block">
+              <select name="datas" lay-verify="required">
+                <option value=""></option>
+                <option value="20230930">9月30日</option>
+                <option value="20231001">10月1日</option>
+                <option value="20231002">10月2日</option>
+                <option value="20231003">10月3日</option>
+                <option value="20231004">10月4日</option>
+                <option value="20231005">10月5日</option>
+                <option value="20231006">10月6日</option>
+                <option value="20231007">10月7日</option>
               </select>
             </div>
         </div>
         <div class="layui-form-item" style="display: inline-block;">
             <div class="layui-input-block">
-              <input type="radio" name="city" value="immigration" title="迁入目的地" checked>
-              <input type="radio" name="city" value="emigration" title="迁出目的地">
+              <input type="radio" name="move_types" value="迁入" title="迁入目的地" checked>
+              <input type="radio" name="move_types" value="迁出" title="迁出目的地">
             </div>
         </div>
+
         <div class="layui-form-item" style="display: inline-block;">
             <div class="layui-input-block">
               <button class="layui-btn" lay-submit lay-filter="formSet">确定</button>
@@ -64,8 +76,43 @@
         </div>
     </form>
 
-<script src="{{ url_for('static', filename='layui.js') }}"></script>
+    <script src="{{ url_for('static', filename='layui.js') }}"></script>
+    <script>
+        layui.use('form', function(){
+            var form = layui.form;
 
+            // 监听表单提交事件
+            form.on('submit(formSet)', function(data){
+                // 获取表单数据
+                let city = data.field.city;
+                let move_types = data.field.move_types;
+                let datas = data.field.datas;
+                // 创建一个 JSON 对象
+                let requestData = {
+                    "cities": cities,
+                    "move_types": move_types,
+                    "datas": datas,
+                };
 
+                // 发送 AJAX 请求到后端
+                $.ajax({
+                    url: "/national_baidu_migration",
+                    type: "POST",
+                    data: JSON.stringify(requestData),
+                    contentType: "application/json",
+                    success: function(response) {
+                        // 处理后端返回的响应数据
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // 处理请求错误
+                        console.log(error);
+                    }
+                });
+
+                return false; // 阻止表单的默认提交行为
+            });
+        });
+    </script>
 </body>
 </html>
