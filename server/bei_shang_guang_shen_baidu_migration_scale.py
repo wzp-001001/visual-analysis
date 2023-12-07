@@ -79,5 +79,9 @@ def register_bei_shang_guang_shen_baidu_migration(app):
     @app.route('/BSGS', methods=['POST'])
     def get_data_htmls():
         combined_chart_html = _bei_shang_guang_shen_baidu_migration(request)
+        combined_chart_html = combined_chart_html.replace('https://assets.pyecharts.org/assets/v5/echarts.min.js',"static/layui.js")\
+            .replace('https://assets.pyecharts.org/assets/v5/maps/china.js',"static/china.js")\
+            .replace('https://assets.pyecharts.org/assets/v5/themes/wonderland.js',"static/china.js")
+
         return combined_chart_html
 
