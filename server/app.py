@@ -47,10 +47,24 @@ def bar_view():
 
 @app.route('/')
 def home():
-    return render_template('line_chart.html')
+    return render_template('golden_week.html')
+
+@app.route('/big_city')
+def big_city():
+    return render_template('big_city.html')
+
+@app.route('/emigration')
+def emigration():
+    return render_template('emigration.html')
+
+@app.route('/immigration')
+def immigration():
+    return render_template('immigration.html')
+
 @app.route('/static/<path:filename>')
 def custom_static(filename):
     return send_from_directory('static', filename)
+
 if __name__ == '__main__':
     # app.run(debug=True)
     app.run()

@@ -9,6 +9,7 @@
   <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
   <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
   <style>
+
     .city {
         margin-left: 210px;
         margin-top: 10px;
@@ -33,10 +34,10 @@
           </li>
           <li class="layui-nav-item">
           </li>
-          <li class="layui-nav-item"><a href="">黄金周迁徙</a></li>
-          <li class="layui-nav-item"><a href="">黄金周热门迁入地</a></li>
-          <li class="layui-nav-item"><a href="">黄金周热门迁出地</a></li>
-          <li class="layui-nav-item"><a href="">北上广深迁入迁出</a></li>
+          <li class="layui-nav-item"><a href="golden_week.html">黄金周迁徙</a></li>
+          <li class="layui-nav-item"><a href="immigration.html">黄金周热门迁入地</a></li>
+          <li class="layui-nav-item"><a href="emigration.html">黄金周热门迁出地</a></li>
+          <li class="layui-nav-item"><a href="big_city.html">北上广深迁入迁出</a></li>
     </ul>
     <form class="layui-form city-select" action="">
         <div class="layui-form-item" style="display: inline-block;margin-top: 20px;">
@@ -63,7 +64,8 @@
             </div>
         </div>
     </form>
-    <div id="Line" style="width:1000px; height:600px;"></div>
+    <div id="line-chart" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
+     <div id="heat-map" style="width: 600px; height: 400px; margin-top: 100px;margin-left: 500px"></div>
     <script>
         //表单提交
         layui.use('form', function(){
@@ -79,28 +81,6 @@
 
 <!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
 <script src="{{ url_for('static', filename='layui.js') }}"></script>
-
-
-<script>
-  const interface="http://127.0.0.1:5001/baidu/baidu_migration_scale"
-    (
-      function () {
-          var result_json = '';
-          // var result = JSON.parse(result_json);
-          var chart = echarts.init(document.getElementById('Line'), 'gray', {renderer: 'canvas'});
-          $.ajax({
-              type: "GET",
-              url: "http://127.0.0.1:5001/baidu/baidu_migration_scale",
-              dataType: 'json',
-              data: {result: result_json},
-              success: function (result) {
-                  chart.setOption(result);
-              }
-          });
-      }
-  )
-</script>
-
 
 
 </body>
