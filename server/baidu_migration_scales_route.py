@@ -3,6 +3,7 @@ from service.baidu_migration_scale import BaiduMigrationScale
 import pyecharts.options as opts
 from pyecharts.charts import Line
 from markupsafe import Markup
+from flask import Flask, render_template
 
 def register_routes(app):
 
@@ -43,3 +44,8 @@ def register_routes(app):
         result_dict = baiduMigrationScale.listAllBaiduMigrationScales()
         c = line_base(result_dict['month_day'],result_dict['2021'],result_dict['2022'],result_dict['2023'])
         return Markup(c.render_embed())
+
+    @app.route('/metropolis')
+    def all_baidu_migration_scales2():
+        return render_template('metropolis.html')
+        # return "1"
