@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>黄金周迁徙</title>
   <link rel="stylesheet"  href="{{ url_for('static', filename='layui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='layui.css') }}">
   <script src="https://cdn.staticfile.org/echarts/5.1.2/echarts.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
   <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
@@ -33,7 +34,7 @@
           <li class="layui-nav-item"><a href="emigration">黄金周热门迁出地</a></li>
           <li class="layui-nav-item"><a href="metropolis">北上广深迁入迁出</a></li>
     </ul>
-    <form class="layui-form city-select" action="">
+    <form id="migration-form" class="layui-form city-select" action="">
         <div class="layui-form-item" style="display: inline-block;margin-top: 20px;">
             <label class="layui-form-label">请选择城市</label>
             <div class="layui-input-block">
@@ -51,14 +52,14 @@
             <div class="layui-input-block">
               <select name="datas" lay-verify="required">
                 <option value=""></option>
-                <option value="20230930">9月30日</option>
-                <option value="20231001">10月1日</option>
-                <option value="20231002">10月2日</option>
-                <option value="20231003">10月3日</option>
-                <option value="20231004">10月4日</option>
-                <option value="20231005">10月5日</option>
-                <option value="20231006">10月6日</option>
-                <option value="20231007">10月7日</option>
+                <option value=20230930>9月30日</option>
+                <option value=20231001>10月1日</option>
+                <option value=20231002>10月2日</option>
+                <option value=20231003>10月3日</option>
+                <option value=20231004>10月4日</option>
+                <option value=20231005>10月5日</option>
+                <option value=20231006>10月6日</option>
+                <option value=20231007>10月7日</option>
               </select>
             </div>
         </div>
@@ -76,43 +77,48 @@
         </div>
     </form>
 
+    <div id="chart-container"></div>
+
     <script src="{{ url_for('static', filename='layui.js') }}"></script>
     <script>
-        layui.use('form', function(){
-            var form = layui.form;
+    layui.use('form', function(){
+        var form = layui.form;
 
-            // 监听表单提交事件
-            form.on('submit(formSet)', function(data){
-                // 获取表单数据
-                let city = data.field.cities;
-                let move_types = data.field.move_types;
-                let datas = data.field.datas;
-                // 创建一个 JSON 对象
-                let requestData = {
-                    "cities": cities,
-                    "move_types": move_types,
-                    "datas": datas,
-                };
+        // 监听表单提交事件
+        form.on('submit(formSet)', function(data){
+            // 获取表单数据
+            let city = data.field['cities'];
+            let move_types = data.field['move_types'];
+            let datas = data.field['datas'];
 
-                // 发送 AJAX 请求到后端
-                $.ajax({
-                    url: "/metropolis_value",
-                    type: "POST",
-                    data: JSON.stringify(requestData),
-                    contentType: "application/json",
-                    success: function(response) {
-                        // 处理后端返回的响应数据
-                        console.log(response);
-                    },
-                    error: function(xhr, status, error) {
-                        // 处理请求错误
-                        console.log(error);
-                    }
-                });
+            // 创建一个 JSON 对象
+            let requestData = {
+                "cities": city,
+                "move_types": move_types,
+                "datas": datas,
+            };
 
-                return false; // 阻止表单的默认提交行为
+            // 发送 AJAX 请求到后端
+            $.ajax({
+                url: "/BSGS",
+                type: "POST",
+                data: JSON.stringify(requestData),
+                contentType: "application/json",
+                success: function(response) {
+                    // 处理后端返回的响应数据
+                    console.log(response);
+
+                    // 将图表 HTML 插入到页面中的 #chart-container
+                    $("#chart-container").html(response);
+                },
+                error: function(xhr, status, error) {
+                    // 处理请求错误
+                    console.log(error);
+                }
             });
+            return false; // 阻止表单的默认提交行为
         });
+    });
     </script>
 </body>
 </html>

@@ -44,10 +44,12 @@ class BeiShangGuangShenBaiduMigration(DbImpl):
         return df
 
     def get_in_city_numbers(self, city, date, move_type):
+        print(self.df)
         filtered_data = self.df[
             (self.df["area"] == city) & (self.df["date"] == date) & (self.df["type_name"] == move_type)]
         city_nums_out = list(zip(filtered_data['city_name'], filtered_data['value']))
         start_end_out = [(j, city) for j in filtered_data['city_name']]
+        print("--",city_nums_out,start_end_out)
         return city_nums_out, start_end_out
 
     def get_out_city_numbers(self, city, date, move_type):
@@ -55,4 +57,5 @@ class BeiShangGuangShenBaiduMigration(DbImpl):
             (self.df["area"] == city) & (self.df["date"] == date) & (self.df["type_name"] == move_type)]
         city_nums_in = list(zip(filtered_data['city_name'], filtered_data['value']))
         start_end_in = [(city, j) for j in filtered_data['city_name']]
+        print("--", city_nums_in, start_end_in)
         return city_nums_in, start_end_in

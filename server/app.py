@@ -4,10 +4,9 @@ from flask import Flask, jsonify, render_template,send_from_directory
 from flask_cors import CORS
 from markupsafe import Markup
 from baidu_migration_scales_route import register_routes
-from bei_shang_guang_shen_baidu_route import register_routes2
 from national_baidu_migration_after import register_routes_national_baidu
 from bei_shang_guang_shen_baidu_migration_scale import register_bei_shang_guang_shen_baidu_migration
-
+from flask import send_from_directory
 from pyecharts import options as opts
 from pyecharts.charts import Bar
 
@@ -22,7 +21,6 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 register_routes(app)
-register_routes2(app)
 register_routes_national_baidu(app)
 register_bei_shang_guang_shen_baidu_migration(app)
 # sanity check route
@@ -64,6 +62,14 @@ def immigration():
 @app.route('/static/<path:filename>')
 def custom_static(filename):
     return send_from_directory('static', filename)
+
+# 添加路由，用于处理字体文件请求
+# @app.route('/font/<filename>')
+# def font(filename):
+#     return send_from_directory('your_font_directory', filename)
+
+
+
 
 if __name__ == '__main__':
     # app.run(debug=True)
