@@ -13,7 +13,7 @@ class NationalBaiduMigration(DbImpl):
         with self.create_connection():
             sql = '''
             SELECT city_name, province_name, value, date, type_name, area
-            FROM national_baidu_migration_scale
+            FROM bei_shang_guang_shen_baidu_migration_scale
             WHERE date IN ('20230927', '20230928', '20230929', '20230930', '20231001', '20231002', '20231003', '20231004', '20231005', '20231006', '20231007', '20231008')
             '''
             cur = self.conn.cursor()
