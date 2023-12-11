@@ -26,6 +26,7 @@
     $ cd client
     $ npm install
     $ npm run dev
+   1
     ```
 
     访问 to [http://localhost:5173](http://localhost:5173)
