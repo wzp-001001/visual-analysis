@@ -9,6 +9,7 @@ from bei_shang_guang_shen_baidu_migration_scale import register_bei_shang_guang_
 from flask import send_from_directory
 from pyecharts import options as opts
 from pyecharts.charts import Bar
+from national_baidu_migration_rose import register_routes_national_baidu_rose
 
 
 app = Flask(__name__, static_folder="templates")
@@ -23,6 +24,7 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 register_routes(app)
 register_routes_national_baidu(app)
 register_bei_shang_guang_shen_baidu_migration(app)
+register_routes_national_baidu_rose(app)
 # sanity check route
 @app.route('/ping', methods=['GET'])
 def ping_pong():
