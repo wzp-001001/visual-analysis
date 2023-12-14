@@ -1,13 +1,12 @@
 # national_baidu_migration_after.py
 from service.national_baidu_migration import NationalBaiduMigration
-import mpld3
+import json
+from flask import Flask, render_template
 from pyecharts.charts import Geo, Timeline
 from pyecharts import options as opts
 from pyecharts.globals import ChartType
-import json
-from flask import Flask, render_template, Markup
-import matplotlib
-matplotlib.use('Agg')
+from markupsafe import Markup
+
 def register_routes_national_baidu(app):
     def get_migration_dataru():
         date_list = [20230927, 20230928, 20230929, 20230930, 20231001, 20231002, 20231003, 20231004, 20231005, 20231006,
@@ -25,7 +24,7 @@ def register_routes_national_baidu(app):
         for i in date_list:
             df_in = df1[(df1["year"] == i) & (df1["type_name"] == "迁入")]
             filtered_data.append(df_in.to_json(orient='records'))
-        print(filtered_data)
+
         return filtered_data
 
     def get_migration_datachu():
@@ -44,7 +43,7 @@ def register_routes_national_baidu(app):
         for i in date_list:
             df_in = df1[(df1["year"] == i) & (df1["type_name"] == "迁出")]
             filtered_data.append(df_in.to_json(orient='records'))
-        print(df1)
+
         return filtered_data
 
     def get_datas_html_qianru():
@@ -58,14 +57,14 @@ def register_routes_national_baidu(app):
             year = day_data[0]['year'] if day_data else "Unknown Year"
             geo_chart = (
                 Geo()
-                .add_schema(maptype="china", itemstyle_opts=opts.ItemStyleOpts(color="#008cba", border_color="#fff"))
+                .add_schema(maptype="china", itemstyle_opts=opts.ItemStyleOpts(color="#568bf5", border_color="#d5d6d8"))
                 .add("", [(city['city_name'], city['value']) for city in day_data], type_=ChartType.EFFECT_SCATTER)
                 .set_series_opts(label_opts=opts.LabelOpts(is_show=False))
                 .set_global_opts(
                     visualmap_opts=opts.VisualMapOpts(
                         min_=min(city['value'] for city in day_data),
                         max_=max(city['value'] for city in day_data),
-                        range_color=["#f7f971", "#e60012"],
+                        range_color=["yellow", "red"],
                         is_calculable=True
                     ),
                     title_opts=opts.TitleOpts(
@@ -73,7 +72,7 @@ def register_routes_national_baidu(app):
                         pos_left='center')
                 )
             )
-            timeline.add(geo_chart, f'{year}')
+            timeline.add(geo_chart, f'{year}日')
 
         timeline.add_schema(
             orient="h",  # 设置为水平方向
@@ -82,7 +81,7 @@ def register_routes_national_baidu(app):
             play_interval=2000,
             width="80%",  # 调整宽度
             pos_bottom="3%",  # 设置在图例的下面，减小距离
-            label_opts=opts.LabelOpts(is_show=True, color="#d97726", interval=0, font_size=10)  # 调整间隔、字体大小和居中对齐
+            label_opts=opts.LabelOpts(is_show=True, color="#aaa", interval=0, font_size=10)  # 调整间隔、字体大小和居中对齐
         )
 
         chart_html = timeline.render_embed()
@@ -99,14 +98,14 @@ def register_routes_national_baidu(app):
             year = day_data[0]['year'] if day_data else "Unknown Year"
             geo_chart = (
                 Geo()
-                .add_schema(maptype="china", itemstyle_opts=opts.ItemStyleOpts(color="#f38153", border_color="#fff"))
+                .add_schema(maptype="china", itemstyle_opts=opts.ItemStyleOpts(color="#568bf5", border_color="#d5d6d8"))
                 .add("", [(city['city_name'], city['value']) for city in day_data], type_=ChartType.EFFECT_SCATTER)
                 .set_series_opts(label_opts=opts.LabelOpts(is_show=False))
                 .set_global_opts(
                     visualmap_opts=opts.VisualMapOpts(
                         min_=min(city['value'] for city in day_data),
                         max_=max(city['value'] for city in day_data),
-                        range_color=["#008cba", "#ffff00"],
+                        range_color=["yellow", "red"],
                         is_calculable=True
                     ),
                     title_opts=opts.TitleOpts(
@@ -114,7 +113,7 @@ def register_routes_national_baidu(app):
                         pos_left='center')
                 )
             )
-            timeline.add(geo_chart, f'{year}')
+            timeline.add(geo_chart, f'{year}日')
 
         timeline.add_schema(
             orient="h",  # 设置为水平方向
@@ -123,12 +122,11 @@ def register_routes_national_baidu(app):
             play_interval=2000,
             width="80%",  # 调整宽度
             pos_bottom="3%",  # 设置在图例的下面，减小距离
-            label_opts=opts.LabelOpts(is_show=True, color="#d97726", interval=0, font_size=10)  # 调整间隔、字体大小和居中对齐
+            label_opts=opts.LabelOpts(is_show=True, color="#aaa", interval=0, font_size=10)  # 调整间隔、字体大小和居中对齐
         )
 
         chart_html = timeline.render_embed()
-        return Markup(chart_html)
-
+        return chart_html
 
     @app.route('/national_baidu_migration1')
     def get_data_htmls1():
@@ -141,4 +139,3 @@ def register_routes_national_baidu(app):
         chart_html_chu = get_datas_html_qianchu()
         # return render_template('../client/src/templates/index.html', chart_html=chart_html)
         return Markup(chart_html_chu)
-
